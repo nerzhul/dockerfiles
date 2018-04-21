@@ -1,6 +1,6 @@
 FROM arm64v8/golang:1.10.1
 
-RUN cd /go/src/ && mkdir -p gitlab.com/nerzhul && cd gitlab.com/nerzhul && git clone https://gitlab.com/nerzhul/bot.git -b 1.0
+RUN cd /go/src/ && mkdir -p gitlab.com/nerzhul && cd gitlab.com/nerzhul && git clone https://gitlab.com/nerzhul/bot.git -b 1.2
 RUN cd /go/src/gitlab.com/nerzhul/bot \
         && env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 make matterbot
 
