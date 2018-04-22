@@ -1,6 +1,7 @@
 FROM arm64v8/debian:stretch
 
 # From https://github.com/dinkel/docker-openldap
+# Note: entrypoint is a little bit buggy and doesn't re-create properly the rights
 MAINTAINER Christian Luginbühl <dinkel@pimprecords.com>
 
 ENV OPENLDAP_VERSION 2.4.44
