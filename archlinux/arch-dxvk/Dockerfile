@@ -9,5 +9,6 @@ RUN cd /tmp/ && \
 	tar xzf /tmp/dxvk-git.tar.gz && chown -R builder. dxvk-git
 
 USER builder
-RUN cd /tmp/dxvk-git && makepkg -s && rm -Rf src/
+RUN cd /tmp/dxvk-git && makepkg -s && rm -Rf src/ && \
+	find /tmp/dxvk-git -name "*.pkg.tar.xz"
 
