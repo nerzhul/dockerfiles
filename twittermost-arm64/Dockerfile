@@ -1,4 +1,4 @@
-FROM arm64v8/golang:1.12.7
+FROM arm64v8/golang:1.12.8
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go get github.com/nerzhul/twittermost
 
