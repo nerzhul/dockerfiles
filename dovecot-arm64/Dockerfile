@@ -1,11 +1,7 @@
-FROM arm64v8/debian:stretch
+FROM arm64v8/alpine:3.10
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-        dovecot-core dovecot-imapd dovecot-ldap \
-        dovecot-lmtpd dovecot-managesieved dovecot-sieve \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache dovecot dovecot-ldap dovecot-lmtpd dovecot-pigeonhole-plugin \
+	dovecot-fts-solr
 
 EXPOSE 143
 EXPOSE 993
