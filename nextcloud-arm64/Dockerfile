@@ -1,4 +1,4 @@
-FROM arm64v8/nextcloud:18.0.4-apache
+FROM arm64v8/nextcloud:19.0.0-apache
 
 RUN apt-get update -qy && \
 	apt-get install --no-install-recommends -qy git ca-certificates && \
