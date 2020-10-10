@@ -10,5 +10,3 @@ build:matterbridge:arm64:
     entrypoint: [""]
   script:
     - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --no-push
-  tags:
-    - arm64
