@@ -1,0 +1,13 @@
+image: debian:buster
+
+stages:
+  - build
+
+build:matterbridge:arm64:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --no-push
+
