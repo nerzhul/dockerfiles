@@ -19,7 +19,7 @@ release:matterbridge:arm64:
     entrypoint: [""]
   script:
     - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --destination="$CI_REGISTRY_IMAGE:1.18.3"
+    - echo $DOCKER_AUTH_CONFIG > /kaniko/.docker/config.json
+    - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --destination="nerzhul/matterbridge-arm64:1.18.3"
   only:
     - master
