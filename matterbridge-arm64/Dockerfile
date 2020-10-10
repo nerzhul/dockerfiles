@@ -13,4 +13,4 @@ COPY --from=0 /etc/ssl/certs /etc/ssl/certs
 COPY --from=0 /usr/share/ca-certificates /usr/share/ca-certificates
 COPY --from=0 /usr/bin/matterbridge /usr/bin/matterbridge
 
-ENTRYPOINT ["/usr/bin/matterbridge", "-config", "/etc/matterbridge.toml"]
+ENTRYPOINT ["/usr/bin/matterbridge", "-conf", "/etc/matterbridge/matterbridge.toml"]
