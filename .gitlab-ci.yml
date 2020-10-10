@@ -2,6 +2,7 @@ image: debian:buster
 
 stages:
   - build
+  - release
 
 build:matterbridge:arm64:
   stage: build
@@ -10,3 +11,15 @@ build:matterbridge:arm64:
     entrypoint: [""]
   script:
     - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --no-push
+
+release:matterbridge:arm64:
+  stage: release
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context=. --dockerfile=matterbridge-arm64/Dockerfile --destination="$CI_REGISTRY_IMAGE:1.18.3"
+  only:
+    - master
