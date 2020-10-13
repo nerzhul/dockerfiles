@@ -1,18 +1,18 @@
-FROM arm64v8/nextcloud:19.0.0-apache
+FROM alpine:3.12.0
 
-RUN apt-get update -qy && \
-	apt-get install --no-install-recommends -qy git ca-certificates && \
+RUN apk add --no-cache curl ca-certificates && \
 	cd /tmp && \
-	curl -L -O  https://github.com/nextcloud/contacts/releases/download/v3.3.0/contacts.tar.gz && \
-	curl -L -O https://github.com/nextcloud/calendar/releases/download/v2.0.3/calendar.tar.gz && \
-	cd /usr/src/nextcloud/apps && \
+	curl -L -O  https://github.com/nextcloud/contacts/releases/download/v3.4.0/contacts.tar.gz && \
+	curl -L -O https://github.com/nextcloud/calendar/releases/download/v2.1.2/calendar.tar.gz && \
 	tar xvzf /tmp/contacts.tar.gz && \
 	tar xvzf /tmp/calendar.tar.gz && \
-	cd /usr/src/nextcloud && \
-	sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf && \
-	apt-get purge -qy git && \
-	apt-get clean && \
-        rm -rf /var/lib/apt/lists/*
+	echo "Listen 8080" > /tmp/ports.conf
+
+FROM arm64v8/nextcloud:20.0.0-apache
+
+COPY --from=0 /tmp/contacts /usr/src/nextcloud/apps/contacts
+COPY --from=0 /tmp/calendar /usr/src/nextcloud/apps/calendar
+COPY --from=0 /tmp/ports.conf /etc/apache2/ports.conf
 
 EXPOSE 8080
 
