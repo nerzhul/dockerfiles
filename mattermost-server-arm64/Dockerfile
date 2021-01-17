@@ -13,10 +13,10 @@ COPY --from=0 /go/bin/linux_arm64/mattermost /usr/bin/mattermost
 COPY --from=0 /mattermost-pkg/mattermost/fonts fonts
 COPY --from=0 /mattermost-pkg/mattermost/i18n i18n
 COPY --from=0 /mattermost-pkg/mattermost/templates templates
-COPY --from=0 /mattermost-pkg/mattermost/config/config.json /etc/mattermost-server/config.json
+COPY --from=0 --chown=8080:8080 /mattermost-pkg/mattermost/config/config.json /etc/mattermost-server/config.json
 COPY --from=0 /mattermost-pkg/mattermost/client/ client
 COPY --from=0 /mattermost-pkg/mattermost/prepackaged_plugins client/plugins
 
-USER mattermost
+USER 8080:8080
 CMD ["/usr/bin/mattermost", "--disableconfigwatch", "--config=/etc/mattermost-server/config.json"]
 
