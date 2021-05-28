@@ -1,11 +1,11 @@
 FROM golang:1.15.12
 
-RUN cd /go/src/ && mkdir -p github.com/mattermost && cd github.com/mattermost && git clone https://github.com/mattermost/mattermost-server.git -b v5.31.5
+RUN cd /go/src/ && mkdir -p github.com/mattermost && cd github.com/mattermost && git clone https://github.com/mattermost/mattermost-server.git -b v5.35.0
 RUN cd /go/src/github.com/mattermost/mattermost-server/cmd/mattermost \
         && env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -i -o /go/bin/linux_arm64/mattermost \
-                 -ldflags "-X github.com/mattermost/mattermost-server/model.BuildNumber=5.31.5 -X 'github.com/mattermost/mattermost-server/model.BuildDate=$(date)' -X github.com/mattermost/mattermost-server/model.BuildHash=3176e13b1f9b14192bef2337ff3fb9346f26ef66 -X github.com/mattermost/mattermost-server/model.BuildHashEnterprise=none -X github.com/mattermost/mattermost-server/model.BuildEnterpriseReady=false" ./
-RUN mkdir /mattermost-pkg/ && cd /mattermost-pkg/ && wget -Y on "https://releases.mattermost.com/5.31.5/mattermost-5.31.5-linux-amd64.tar.gz" \
-        && tar xvzf mattermost-5.31.5-linux-amd64.tar.gz
+                 -ldflags "-X github.com/mattermost/mattermost-server/model.BuildNumber=5.35.0 -X 'github.com/mattermost/mattermost-server/model.BuildDate=$(date)' -X github.com/mattermost/mattermost-server/model.BuildHash=3176e13b1f9b14192bef2337ff3fb9346f26ef66 -X github.com/mattermost/mattermost-server/model.BuildHashEnterprise=none -X github.com/mattermost/mattermost-server/model.BuildEnterpriseReady=false" ./
+RUN mkdir /mattermost-pkg/ && cd /mattermost-pkg/ && wget -Y on "https://releases.mattermost.com/5.35.0/mattermost-5.35.0-linux-amd64.tar.gz" \
+        && tar xvzf mattermost-5.35.0-linux-amd64.tar.gz
 
 FROM arm64v8/alpine:3.13.5
 WORKDIR /usr/local/www/mattermost
@@ -17,7 +17,7 @@ COPY --from=0 --chown=8080:8080 /mattermost-pkg/mattermost/config/config.json /e
 COPY --from=0 /mattermost-pkg/mattermost/client/ client
 COPY --from=0 /mattermost-pkg/mattermost/prepackaged_plugins client/plugins
 
-RUN mkdir plugins && chown 8080:8080 plugins
+RUN mkdir plugins data && chown 8080:8080 plugins data
 
 USER 8080:8080
 CMD ["/usr/bin/mattermost", "--disableconfigwatch", "--config=/etc/mattermost-server/config.json"]
